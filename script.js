@@ -81,7 +81,8 @@ function fiveDayCall(lat, lon) {
         $("#forecastGrid").html("");
         console.log("5day: ", response);
         response.daily.forEach(element => {
-            var forecastCard = $("<div>").addClass("card bg-primary rounded-lg text-white p-1 mx-auto");
+            var forecastCard = $("<div>").addClass("card bg-primary border w-25");
+            var forecastCardBody = $("<div>").addClass("card-body text-white p-2")
 
             var date = returnDateString(element.dt);
 
@@ -92,7 +93,8 @@ function fiveDayCall(lat, lon) {
             var tempEl = $("<p>").text(`Temperature: ${element.temp.day} °F`);
             var humidEl = $("<p>").text(`Humidity: ${element.humidity}%`);
 
-            forecastCard.append(dateEl, weatherIconEl, tempEl, humidEl);
+            forecastCardBody.append(dateEl, weatherIconEl, tempEl, humidEl);
+            forecastCard.append(forecastCardBody);
             $("#forecastGrid").append(forecastCard);
         });;
     });
@@ -129,7 +131,7 @@ function uvIndexCall(lat, lon) {
                         : color = "dark";
 
 
-        var uvDiv = $("<div>").text(response.value).addClass(`alert alert-${color}`).attr("role", "alert");
+        var uvDiv = $("<div>").text(response.value).addClass(`alert alert-${color} text-center px-2 py-0 w-auto`).attr("role", "alert");
         $("#uvDisplay").html(`UV Index: `).append(uvDiv);
     });
 }
