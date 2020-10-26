@@ -66,12 +66,9 @@ function fiveDayCall(lat, lon) {
 
 //Open weather returns unix time stamps which need to be formatted into a short date
 function returnDateString(timestamp) {
-    let rawDate = parseInt(timestamp) * 1000
-    let month = rawDate.getMonth();
-    let day = rawDate.getDate();
-    let year = rawDate.getFullYear();
+    let rawDate = moment.unix(timestamp).utc();
 
-    date = month + "/" + day + "/" + year;
+    date = rawDate.format("L")
     console.log("DATE:", date);
     console.log("rawDATE:", rawDate);
     return date;
