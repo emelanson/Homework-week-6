@@ -60,7 +60,7 @@ function displayCurrentConditions(city) {
     var icon = city.weather[0].icon;
     var date = returnDateString(city.dt);
 
-    var weatherIcon = $("<img>").attr("src", `http://openweathermap.org/img/wn/${icon}@2x.png`).height("50").width("50");
+    var weatherIcon = $("<img>").attr("src", `https://openweathermap.org/img/wn/${icon}@2x.png`).height("50").width("50");
 
     $("#cityDisplay").html();
     $("#cityDisplay").html(city.name).append(weatherIcon);
@@ -81,7 +81,7 @@ function fiveDayCall(lat, lon) {
         $("#forecastGrid").html("");
         console.log("5day: ", response);
         response.daily.forEach(element => {
-            var forecastCard = $("<div>").addClass("card bg-primary rounded-lg text-white d-flex p-2 mr-3");
+            var forecastCard = $("<div>").addClass("card bg-primary rounded-lg text-white p-1 mx-auto");
 
             var date = returnDateString(element.dt);
 
@@ -113,7 +113,7 @@ function saveSearch(city) {
 }
 
 function uvIndexCall(lat, lon) {
-    var uvQuery = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&cnt=1&appid=${apiKey}`;
+    var uvQuery = `https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&cnt=1&appid=${apiKey}`;
 
     $.ajax({
         url: uvQuery,
