@@ -1,7 +1,8 @@
 const apiKey = "f63d81a8c2dedf494e6002b9d1978470";
 var cityName = "raleigh"
 
-console.log(searchBtn);
+//populates the page on load using an example query.
+weatherSearch();
 
 //listener for the Search button
 $("#searchBtn").click(function (e) {
@@ -47,7 +48,7 @@ function fiveDayCall(lat, lon) {
         $("#forecastGrid").html("");
         console.log("5day: ", response);
         response.daily.forEach(element => {
-            var forecastCard = $("<div>").addClass("card bg-primary rounded-lg text-white d-flex  p-2 mr-3");
+            var forecastCard = $("<div>").addClass("card bg-primary rounded-lg text-white d-flex p-2 mr-3");
 
             var date = returnDateString(element.dt);
             console.log("ELEMENT.DT: ", element.dt);

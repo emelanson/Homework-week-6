@@ -23,8 +23,8 @@
             <!-- Search for a city section -->
             <aside class="col-md-3 bg-light vh-100">
                 <form>
+                    <h5>Search for a City:</h5>
                     <div class="form-group">
-                        <label for="searchInput">Search for a City:</label>
                         <div class="flex-row d-inline-flex">
                             <input type="search" class="form-control" id="searchInput" placeholder="Raleigh">
                             <button type="button" class="btn btn-primary fas fa-search" id=searchBtn></button>
@@ -40,7 +40,7 @@
                         <!--tips: add .text-center,.text-right to the .card to change card text alignment-->
                         <div class="card-body">
                             <h3 class="card-title" id="cityDisplay">Raleigh</h3>
-                            <h6 class="card-subtitle mb-2 text-muted" id="dateDisplay">10/5/2020</h6>
+                            <h6 class="card-subtitle mt-2 text-muted" id="dateDisplay">10/5/2020</h6>
                             <div class="card-text" id="detailDisplay">
                                 <p id="tempDisplay"></p>
                                 <p id="humidityDisplay"></p>
@@ -50,7 +50,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="row p-5" id="forecastGrid">
+                <div class="row pl-5">
+                    <h4>Your upcoming forecast:</h4>
+                </div>
+                <div class="row pl-5" id="forecastGrid">
                 </div>
             </div>
         </div>
