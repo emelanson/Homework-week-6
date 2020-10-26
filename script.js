@@ -23,12 +23,13 @@ function displayCurrentConditions(city) {
     var temp = city.main.temp;
     var humidity = city.main.humidity;
     var windSpeed = city.wind.speed;
-
     var icon = city.weather[0].icon;
-    var weatherIconEl = $("img").attr("src", `http://openweathermap.org/img/wn/${icon}@2x.png`).height("50").width("50")
     var date = returnDateString(city.dt);
 
-    $("#cityDisplay").text(city.name).append(weatherIconEl);
+    var weatherIcon = $("<img>").attr("src", `http://openweathermap.org/img/wn/${icon}@2x.png`).height("50").width("50");
+
+    $("#cityDisplay").html();
+    $("#cityDisplay").html(city.name).append(weatherIcon);
     $("#dateDisplay").text(date);
     $("#tempDisplay").text(`Temperature: ${temp} `);
     $("#humidityDisplay").text(`Humidity: ${humidity}%`);
@@ -43,9 +44,10 @@ function fiveDayCall(lat, lon) {
         url: fiveDayQuery,
         method: "get"
     }).then(response => {
+        $("#forecastGrid").html("");
         console.log("5day: ", response);
         response.daily.forEach(element => {
-            var forecastCard = $("<div>").addClass("card bg-primary");
+            var forecastCard = $("<div>").addClass("card bg-primary rounded-lg text-white d-flex  p-2 mr-3");
 
             var date = returnDateString(element.dt);
             console.log("ELEMENT.DT: ", element.dt);
