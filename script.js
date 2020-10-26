@@ -1,6 +1,19 @@
 const apiKey = "f63d81a8c2dedf494e6002b9d1978470";
 var cityName = "raleigh"
 
+//More concise ternary expression form of code I've written for previous projects.
+//Checks if there is an existing local storage item, if not, creates an empty array.
+//Prevents startup array from overwriting previous data on page load.
+//From taniaarascia.com
+let prevSearches = localStorage.getItem('searches')
+    ? JSON.parse(localStorage.getItem('searches'))
+    : []
+localStorage.setItem('searches', JSON.stringify(prevSearches));
+var searches = JSON.parse(localStorage.getItem('searches'));
+
+//generates list of previous searches in the UI
+searches.forEach(city => saveSearch(city));
+
 //populates the page on load using an example query.
 weatherSearch();
 
@@ -8,15 +21,25 @@ weatherSearch();
 $("#searchBtn").click(function (e) {
     e.preventDefault();
 
-    console.log("SearchInput:", $("#searchInput"));
-
     cityName = $("#searchInput").val().toLowerCase().trim();
-    console.log("cityName:", cityName);
+
+
+    prevSearches.push(cityName);
+    localStorage.setItem('searches', JSON.stringify(prevSearches));
 
     saveSearch(cityName);
 
     weatherSearch();
 });
+
+//Listener for clear button.  Clears local storage and variables.
+$("#clearBtn").click(function (e) {
+    e.preventDefault();
+    localStorage.setItem('searches', []);
+    $("#prevSearches").html("");
+    prevSearches = [];
+    searches = [];
+})
 
 
 function displayCurrentConditions(city) {
