@@ -24,9 +24,13 @@ function displayCurrentConditions(city) {
     var humidity = city.main.humidity;
     var windSpeed = city.wind.speed;
 
-    $("#cityDisplay").text(city.name);
-    $("#dateDisplay").text(Date(city.dt));
-    $("#tempDisplay").text(`Temperature: ${temp} °F`);
+    var icon = city.weather[0].icon;
+    var weatherIconEl = $("img").attr("src", `http://openweathermap.org/img/wn/${icon}@2x.png`).height("50").width("50")
+    var date = returnDateString(city.dt);
+
+    $("#cityDisplay").text(city.name).append(weatherIconEl);
+    $("#dateDisplay").text(date);
+    $("#tempDisplay").text(`Temperature: ${temp} `);
     $("#humidityDisplay").text(`Humidity: ${humidity}%`);
     $("#windDisplay").text(`Wind Speed: ${windSpeed} MPH`);
 
@@ -40,12 +44,37 @@ function fiveDayCall(lat, lon) {
         method: "get"
     }).then(response => {
         console.log("5day: ", response);
-        // response.daily.forEach(element => {
+        response.daily.forEach(element => {
+            var forecastCard = $("<div>").addClass("card bg-primary");
 
+            var date = returnDateString(element.dt);
+            console.log("ELEMENT.DT: ", element.dt);
 
-        // });;
+            var dateEl = $("<h5>").addClass("card-title").text(date);
+
+            var icon = element.weather[0].icon;
+            var weatherIconEl = $("<img>").attr("src", `http://openweathermap.org/img/wn/${icon}@2x.png`).height("50").width("50");
+            var tempEl = $("<p>").text(`Temperature: ${element.temp.day} °F`);
+            var humidEl = $("<p>").text(`Humidity: ${element.humidity}%`);
+
+            forecastCard.append(dateEl, weatherIconEl, tempEl, humidEl);
+            $("#forecastGrid").append(forecastCard);
+        });;
     });
 
+}
+
+//Open weather returns unix time stamps which need to be formatted into a short date
+function returnDateString(timestamp) {
+    let rawDate = parseInt(timestamp) * 1000
+    let month = rawDate.getMonth();
+    let day = rawDate.getDate();
+    let year = rawDate.getFullYear();
+
+    date = month + "/" + day + "/" + year;
+    console.log("DATE:", date);
+    console.log("rawDATE:", rawDate);
+    return date;
 }
 
 function saveSearch(city) {
