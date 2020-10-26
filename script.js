@@ -41,6 +41,16 @@ $("#clearBtn").click(function (e) {
     searches = [];
 })
 
+//Listener for clicking on an item from the previous searches list.  Gets event target text and feeds it into 
+$("#prevSearches").click(function (e) {
+    e.preventDefault();
+    let target = $(e.target);
+
+    cityName = target.text();
+
+    weatherSearch();
+})
+
 
 function displayCurrentConditions(city) {
 
@@ -74,7 +84,6 @@ function fiveDayCall(lat, lon) {
             var forecastCard = $("<div>").addClass("card bg-primary rounded-lg text-white d-flex p-2 mr-3");
 
             var date = returnDateString(element.dt);
-            console.log("ELEMENT.DT: ", element.dt);
 
             var dateEl = $("<h5>").addClass("card-title").text(date);
 
@@ -95,8 +104,6 @@ function returnDateString(timestamp) {
     let rawDate = moment.unix(timestamp).utc();
 
     date = rawDate.format("L")
-    console.log("DATE:", date);
-    console.log("rawDATE:", rawDate);
     return date;
 }
 
@@ -104,7 +111,6 @@ function saveSearch(city) {
     var previousSearch = $("<div>").addClass("card-body").text(city);
     $("#prevSearches").prepend(previousSearch);
 }
-
 
 function uvIndexCall(lat, lon) {
     var uvQuery = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&cnt=1&appid=${apiKey}`;
@@ -142,7 +148,6 @@ function weatherSearch() {
         //set latitude and longitude of target city for use in further queries
         var lat = response.coord.lat;
         var lon = response.coord.lon;
-        console.log("LAT: ", lat, " LON: ", lon);
 
         displayCurrentConditions(response);
         uvIndexCall(lat, lon);
