@@ -90,7 +90,7 @@ function fiveDayCall(lat, lon) {
 
             var icon = element.weather[0].icon;
             var weatherIconEl = $("<img>").attr("src", `http://openweathermap.org/img/wn/${icon}@2x.png`).height("50").width("50");
-            var tempEl = $("<p>").text(`Temperature: ${element.temp.day} °F`);
+            var tempEl = $("<p>").text(`Temp: ${element.temp.day} °F`);
             var humidEl = $("<p>").text(`Humidity: ${element.humidity}%`);
 
             forecastCardBody.append(dateEl, weatherIconEl, tempEl, humidEl);
