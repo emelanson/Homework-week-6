@@ -90,7 +90,18 @@ function uvIndexCall(lat, lon) {
         url: uvQuery,
         method: "get"
     }).then(response => {
-        $("#uvDisplay").text(`UV Index: ${response.value}`);
+        $("#uvDisplay").html();
+
+        let color;
+        response.value < 2 ? color = "light"
+            : response.value < 5 ? color = "success"
+                : response.value < 7 ? color = "warning"
+                    : response.value < 10 ? color = "danger"
+                        : color = "dark";
+
+
+        var uvDiv = $("<div>").text(response.value).addClass(`alert alert-${color}`).attr("role", "alert");
+        $("#uvDisplay").html(`UV Index: `).append(uvDiv);
     });
 }
 
