@@ -1,12 +1,9 @@
 const apiKey = "f63d81a8c2dedf494e6002b9d1978470";
 var cityName = "raleigh"
 
-const query = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=${apiKey}`;
-
-
 console.log(searchBtn);
 
-// AJAX call is living on the search button
+//listener for the Search button
 $("#searchBtn").click(function (e) {
     e.preventDefault();
 
@@ -17,21 +14,7 @@ $("#searchBtn").click(function (e) {
 
     saveSearch(cityName);
 
-    $.ajax({
-        url: query,
-        method: "get"
-    }).then(response => {
-
-        console.log("response: ", response);
-
-        //set latitutde and longitude of target city for use in further queries
-        var lat = response.coord.lat;
-        var lon = response.coord.lon;
-        console.log("LAT: ", lat, " LON: ", lon);
-
-        displayCurrentConditions(response);
-        uvIndexCall(lat, lon);
-    });
+    weatherSearch();
 });
 
 
@@ -41,10 +24,27 @@ function displayCurrentConditions(city) {
     var humidity = city.main.humidity;
     var windSpeed = city.wind.speed;
 
+    $("#cityDisplay").text(city.name);
     $("#dateDisplay").text(Date(city.dt));
     $("#tempDisplay").text(`Temperature: ${temp} °F`);
     $("#humidityDisplay").text(`Humidity: ${humidity}%`);
     $("#windDisplay").text(`Wind Speed: ${windSpeed} MPH`);
+
+}
+
+function fiveDayCall(lat, lon) {
+    var fiveDayQuery = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly&units=imperial&appid=${apiKey}`;
+
+    $.ajax({
+        url: fiveDayQuery,
+        method: "get"
+    }).then(response => {
+        console.log("5day: ", response);
+        // response.daily.forEach(element => {
+
+
+        // });;
+    });
 
 }
 
@@ -65,3 +65,24 @@ function uvIndexCall(lat, lon) {
     });
 }
 
+function weatherSearch() {
+
+    var query = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=${apiKey}`;
+
+    $.ajax({
+        url: query,
+        method: "get"
+    }).then(response => {
+
+        console.log("response: ", response);
+
+        //set latitude and longitude of target city for use in further queries
+        var lat = response.coord.lat;
+        var lon = response.coord.lon;
+        console.log("LAT: ", lat, " LON: ", lon);
+
+        displayCurrentConditions(response);
+        uvIndexCall(lat, lon);
+        fiveDayCall(lat, lon);
+    });
+}
